@@ -48,3 +48,17 @@ class CustomerLogin(APIView):
             return Response({'token': token.key, 'user': serializer.data}, status=status.HTTP_200_OK)
         except Customer.DoesNotExist:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class SellerList(APIView):
+    def get(self, request):
+        sellers = Seller.objects.all()
+        serializer = SellerSerializer(sellers, many=True)
+        return Response(serializer.data)
+
+
+class CustomerList(APIView):
+    def get(self, request):
+        customers = Customer.objects.all()
+        serializer = CustomerSerializer(customers, many=True)
+        return Response(serializer.data)
